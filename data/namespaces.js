@@ -4,25 +4,28 @@ const Room =  require('../classes/Room')
 
 // Set up the namespaces
 let namespaces = []
-let wikiNs = new Namespace(0,'Wiki','https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/103px-Wikipedia-logo-v2.svg.png','/wiki')
-let mozNs = new Namespace(1,'Mozilla','https://www.mozilla.org/media/img/logos/firefox/logo-quantum.9c5e96634f92.png','/mozilla')
-let linuxNs = new Namespace(2,'Linux','https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png','/linux')
+let theSimpsons = new Namespace(0,'The Simpsons','https://i.imgur.com/3V9zzHN.jpg','/thesimpsons')
+let starWars = new Namespace(1,'Star Wars','https://i.imgur.com/mNKzQMx.jpg','/starwars')
+let harryPotter = new Namespace(2,'Harry Potter','https://i.imgur.com/7W82c76.jpg','/harrypotter')
 
-namespaces.push(wikiNs,mozNs,linuxNs)
+
 
 // Make the main room and add it to rooms. it will ALWAYS be 0
-wikiNs.addRoom(new Room(0,'New Articles','Wiki'))
-wikiNs.addRoom(new Room(1,'Editors','Wiki'))
-wikiNs.addRoom(new Room(2,'Other','Wiki'))
+theSimpsons.addRoom(new Room(0,'Favourite Characters','The Simpsons'))
+theSimpsons.addRoom(new Room(1,'Best Episodes','The Simpsons'))
+theSimpsons.addRoom(new Room(2,'Other','The Simpsons'))
 
-mozNs.addRoom(new Room(0,'Firefox','Mozilla'))
-mozNs.addRoom(new Room(1,'SeaMonkey','Mozilla'))
-mozNs.addRoom(new Room(2,'SpiderMonkey','Mozilla'))
-mozNs.addRoom(new Room(3,'Rust','Mozilla'))
+starWars.addRoom(new Room(0,'Original Trilogy','Star Wars'))
+starWars.addRoom(new Room(1,'Prequel Trilogy','Star Wars'))
+starWars.addRoom(new Room(2,'Sequel Trilogy','Star Wars'))
+starWars.addRoom(new Room(3,'TV Shows','Star Wars'))
 
-linuxNs.addRoom(new Room(0,'Debian','Linux'))
-linuxNs.addRoom(new Room(1,'Red Hat','Linux'))
-linuxNs.addRoom(new Room(2,'MacOs','Linux'))
-linuxNs.addRoom(new Room(3,'Kernal Development','Linux'))
+harryPotter.addRoom(new Room(0,'Books','Harry Potter'))
+harryPotter.addRoom(new Room(1,'Films','Harry Potter'))
+harryPotter.addRoom(new Room(2,'Theatre','Harry Potter'))
+harryPotter.addRoom(new Room(3,'Additional Stories','Harry Potter'))
+
+namespaces.push(theSimpsons,starWars,harryPotter)
+
 
 module.exports = namespaces
