@@ -14,25 +14,25 @@ const io = socketio(expressServer)
 
 
 io.on('connection', (socket) => {
-  socket.emit('messageFromServer', { data: 'This is the socketio server' })
-  socket.on('messageToServer', (dataFromClient) => {
-    console.log(dataFromClient)
+  let nsData = namespaces.map((namespace) => {
+    return {
+      img: namespace.img,
+      endpoint: namespace.endpoint
+    }
   })
+  console.log(nsData)
 
-  socket.on('newMessageToServer', (msg) => {
-    io.of('/').emit('messageToClients', { text: msg.text })
-  })
-
-
-
-
+  socket.emit('nsList', nsData)
 })
 
 
 // loop through each namespace and listen for a connection
 namespaces.forEach((namespace) => {
+  //console.log(namespace)
 
-  console.log(namespace)
+  io.of(namespace.endpoint).on('connection', (socket) => {
+    console.log(`${socket.id} has jointed ${namespace.endpoint}`)
+  })
 
 
 })

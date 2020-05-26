@@ -1,34 +1,40 @@
-const username = prompt('What is your username?')
+const socket = io('https://localhost:9000')
 
 
+console.log(socket.io)
 
-
-
-const socket = io('http://localhost:9000', {
-  query: {
-    username
-  }
+socket.on('connect', () => {
+  console.log(socket.io)
 })
-let nsSocket = ''
-// listen for nsList, which is a list of all the namespaces.
-socket.on('nsList', (nsData) => {
-  console.log('The list of .rooms has arrived!!')
-  // console.log(nsData)
-  let namespacesDiv = document.querySelector('.namespaces')
-  namespacesDiv.innerHTML = ''
-  nsData.forEach((ns) => {
-    namespacesDiv.innerHTML += `<div class="namespace" ns=${ns.endpoint} ><img src="${ns.img}" /></div>`
-  })
 
-  // Add a clicklistener for each NS
-  console.log(document.getElementsByClassName('namespace'))
-  Array.from(document.getElementsByClassName('namespace')).forEach((elem) => {
-    // console.log(elem)
-    elem.addEventListener('click', (e) => {
-      const nsEndpoint = elem.getAttribute('ns')
-      // console.log(`${nsEndpoint} I should go to now`)
-      joinNs(nsEndpoint)
-    })
+//listen for nsList in our app.js - this is a list of all the namespaces
+
+socket.on('nsList', (nsData) => {
+  console.log('We have received the list of namespaces from the server')
+  console.log(nsData)
+  let nameSpacesDiv = document.querySelector('.namespaces')
+  nameSpacesDiv.innerHTML = ''
+  nsData.forEach((namespace) => {
+    nameSpacesDiv.innerHTML += `<div class=namespace><img src="${namespace.img}"/> </div>`
   })
-  joinNs('/wiki')
+})
+
+
+socket.on('messageFromServer', (dataFromServer) => {
+  console.log(dataFromServer)
+  socket.emit('dataToServer', { data: 'This is the data from our front-end' })
+})
+
+
+document.querySelector('.message-form').addEventListener('submit', (event) => {
+  event.preventDefault()
+  const newMessage = document.querySelector('#user-message'.value)
+  socket.emit('newMessageToServer', { text: newMessage })
+})
+
+
+
+socket.on('messageToClients', (msg) => {
+  console.log(msg)
+  document.querySelector('#messages').innerHTML += `<li> ${msg.text}</li>`
 })
