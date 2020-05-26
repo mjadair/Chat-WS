@@ -5,6 +5,7 @@ class Namespace {
     this.nsTitle = nsTitle
     this.img = img
     this.endpoint = endpoint
+    this.rooms = []
   }
 
   addRoom(roomObj) {
@@ -12,3 +13,6 @@ class Namespace {
   }
 
 }
+
+
+module.exports = Namespace
