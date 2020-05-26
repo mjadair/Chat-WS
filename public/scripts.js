@@ -1,4 +1,6 @@
-const socket = io('https://localhost:9000')
+const socket = io('http://localhost:9000')
+
+
 
 
 console.log(socket.io)
@@ -15,7 +17,14 @@ socket.on('nsList', (nsData) => {
   let nameSpacesDiv = document.querySelector('.namespaces')
   nameSpacesDiv.innerHTML = ''
   nsData.forEach((namespace) => {
-    nameSpacesDiv.innerHTML += `<div class=namespace><img src="${namespace.img}"/> </div>`
+    nameSpacesDiv.innerHTML += `<div class=namespace ns=${namespace.endpoint}><img src="${namespace.img}"/> </div>`
+  })
+
+  Array.from(document.getElementsByClassName('namespace')).forEach((element) => {
+    element.addEventListener('click', (e) => {
+      const namespaceEndpoint = element.getAttribute('ns')
+      
+    })
   })
 })
 
