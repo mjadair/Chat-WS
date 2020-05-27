@@ -20,9 +20,10 @@ document.addEventListener('DOMContentLoaded', () => {
       nameSpacesDiv.innerHTML += `<div class=namespace ns=${namespace.endpoint}><img src="${namespace.img}"/> </div>`
     })
 
+  
     Array.from(document.getElementsByClassName('namespace')).forEach((element) => {
       element.addEventListener('click', (e) => {
-        const namespaceEndpoint = e.target.getAttribute('ns')
+        const namespaceEndpoint = element.getAttribute('ns')
         console.log(namespaceEndpoint)
 
       })
