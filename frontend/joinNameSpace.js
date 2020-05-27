@@ -22,14 +22,13 @@ function joinNameSpace(endpoint) {
 
     const topRoom = document.querySelector('.room')
     const topRoomName = topRoom.innerText
-  
+
     console.log(topRoomName)
+
+    joinRoom(topRoomName)
 
 
   })
-
-
-
 
 
 
@@ -43,7 +42,7 @@ function joinNameSpace(endpoint) {
 
   document.querySelector('.message-form').addEventListener('submit', (event) => {
     event.preventDefault()
-    const newMessage = document.querySelector('#user-message'.value)
+    const newMessage = document.querySelector('#user-message').value
     nsSocket.emit('newMessageToServer', { text: newMessage })
   })
 

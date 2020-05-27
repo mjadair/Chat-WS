@@ -40,9 +40,22 @@ namespaces.forEach((namespace) => {
   io.of(namespace.endpoint).on('connection', (nsSocket) => {
     console.log(`${nsSocket.id} has joined ${namespace.endpoint}`)
     nsSocket.emit('nsRoomLoad', namespaces[0].rooms)
-    nsSocket.on('joinRoom', (roomToJoin) => {
+
+
+    nsSocket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
       nsSocket.join(roomToJoin)
+      io.of('/thesimpsons').in(roomToJoin).clients((error, clients) => {
+        console.log('clients: ', clients)
+        numberOfUsersCallback(clients.length)
+      }) 
+     
     })
+
+    nsSocket.on('newMessageToServer', (message) => {
+      console.log(message)
+    })
+
+
   })
 
 
