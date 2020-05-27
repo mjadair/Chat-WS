@@ -53,6 +53,13 @@ namespaces.forEach((namespace) => {
 
     nsSocket.on('newMessageToServer', (message) => {
       console.log(message)
+      console.log(nsSocket.rooms)
+
+      const roomTitle = Object.keys(nsSocket.rooms)[1]
+
+      io.of('/thesimpsons').to(roomTitle).emit('messageToClients', message)
+
+
     })
 
 
