@@ -37,8 +37,9 @@ io.on('connection', (socket) => {
 
 // loop through each namespace and listen to each endpoint for a connection from the client
 namespaces.forEach((namespace) => {
-  io.of(namespace.endpoint).on('connection', (socket) => {
-    console.log(`${socket.id} has jointed ${namespace.endpoint}`)
+  io.of(namespace.endpoint).on('connection', (nsSocket) => {
+    console.log(`${nsSocket.id} has joined ${namespace.endpoint}`)
+    nsSocket.emit('nsRoomLoad', namespaces[0].rooms)
   })
 
 
