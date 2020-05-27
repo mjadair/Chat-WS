@@ -1,18 +1,16 @@
 const socket = io('http://localhost:9000')
 
-
+//run the scripts when the DOM has loaded
 document.addEventListener('DOMContentLoaded', () => {
 
 
-
-  console.log(socket.io)
-
+  //when our front end client connects to the socket, console log what the socket is.
   socket.on('connect', () => {
     console.log(socket.io)
   })
 
-  //listen for nsList in our app.js - this is a list of all the namespaces
 
+  //our server emits ns.list in app.js - the socket listens for it here, and appends the content to the HTML
   socket.on('nsList', (nsData) => {
     console.log('We have received the list of namespaces from the server')
     console.log(nsData)
@@ -24,7 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     Array.from(document.getElementsByClassName('namespace')).forEach((element) => {
       element.addEventListener('click', (e) => {
-        const namespaceEndpoint = element.getAttribute('ns')
+        const namespaceEndpoint = e.target.getAttribute('ns')
+        console.log(namespaceEndpoint)
 
       })
     })
