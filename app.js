@@ -14,12 +14,15 @@ let namespaces = require('./data/namespaces')
 //set up middleware with app.use and serve static html files from our front-end folder with .static()
 app.use(express.static(__dirname + '/frontend'))
 
-
+//tell our express server to listen on port 9000
 const expressServer = app.listen(9000, () => console.log('Express server is listening on Port 9000'))
+
+
+//initialise socketio with our server 
 const io = socketio(expressServer)
 
 
-
+//When the websocket connects to the server, map over the namespace data and emit it. This makes it available for our front-end client. 
 io.on('connection', (socket) => {
   let nsData = namespaces.map((namespace) => {
     return {
@@ -28,15 +31,12 @@ io.on('connection', (socket) => {
     }
   })
   console.log(nsData)
-
   socket.emit('nsList', nsData)
 })
 
 
-// loop through each namespace and listen for a connection
+// loop through each namespace and listen to each endpoint for a connection from the client
 namespaces.forEach((namespace) => {
-  //console.log(namespace)
-
   io.of(namespace.endpoint).on('connection', (socket) => {
     console.log(`${socket.id} has jointed ${namespace.endpoint}`)
   })
