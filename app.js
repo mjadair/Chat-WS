@@ -1,14 +1,21 @@
+// require the express web serve framework
 const express = require('express')
+
+//intialise up an app variable that uses the express server
 const app = express()
+
+//require socketio
 const socketio = require('socket.io')
 
+//take the namespaces from our data files
 let namespaces = require('./data/namespaces')
-// console.log(typeof namespaces[0].rooms[0])
 
 
+//set up middleware with app.use and serve static html files from our front-end folder with .static()
+app.use(express.static(__dirname + '/frontend'))
 
-app.use(express.static(__dirname + '/public'))
-const expressServer = app.listen(9000)
+
+const expressServer = app.listen(9000, () => console.log('Express server is listening on Port 9000'))
 const io = socketio(expressServer)
 
 
