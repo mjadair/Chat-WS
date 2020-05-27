@@ -52,12 +52,18 @@ namespaces.forEach((namespace) => {
     })
 
     nsSocket.on('newMessageToServer', (message) => {
+      const fullMessage = {
+        text: message,
+        time: Date.now(),
+        username: 'Michael',
+        avatar: 'https://ca.slack-edge.com/T0351JZQ0-UM3K7D118-3fb86655d21a-512'
+      }
       console.log(message)
       console.log(nsSocket.rooms)
 
       const roomTitle = Object.keys(nsSocket.rooms)[1]
 
-      io.of('/thesimpsons').to(roomTitle).emit('messageToClients', message)
+      io.of('/thesimpsons').to(roomTitle).emit('messageToClients', fullMessage)
 
 
     })

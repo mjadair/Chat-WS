@@ -97,8 +97,7 @@ input {
   overflow: scroll;
 }
 #messages li .user-image{
-  /* width: 50px; */
-  /* display: inline-block; */
+width: 5%;
 }
 #messages li .user-message{
   margin-left: 10px;

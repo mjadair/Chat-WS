@@ -35,7 +35,8 @@ function joinNameSpace(endpoint) {
 
   nsSocket.on('messageToClients', (msg) => {
     console.log(msg)
-    document.querySelector('#messages').innerHTML += `<li> ${msg.text}</li>`
+    const newMessage = buildHTML(msg)
+    document.querySelector('#messages').innerHTML += newMessage
   })
 
 
@@ -46,6 +47,21 @@ function joinNameSpace(endpoint) {
     nsSocket.emit('newMessageToServer', { text: newMessage })
   })
 
+
+  function buildHTML(message) {
+    const newHTML = ` 
+    <li>
+    <div class="user-image">
+      <img src="${message.avatar}" />
+    </div>
+    <div class="user-message">
+  <div class="user-name-time">${message.username}<span>${message.time}</span></div>
+      <div class="message-text">${message.text}</div>
+    </div>
+  </li>`
+
+    return newHTML
+  }
 
 
 
