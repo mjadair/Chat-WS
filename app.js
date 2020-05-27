@@ -53,8 +53,8 @@ namespaces.forEach((namespace) => {
 
     nsSocket.on('newMessageToServer', (message) => {
       const fullMessage = {
-        text: message,
-        time: Date.now(),
+        text: message.text,
+        time: (new Date).toLocaleString(),
         username: 'Michael',
         avatar: 'https://ca.slack-edge.com/T0351JZQ0-UM3K7D118-3fb86655d21a-512'
       }

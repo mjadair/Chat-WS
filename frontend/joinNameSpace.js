@@ -55,7 +55,7 @@ function joinNameSpace(endpoint) {
       <img src="${message.avatar}" />
     </div>
     <div class="user-message">
-  <div class="user-name-time">${message.username}<span>${message.time}</span></div>
+  <div class="user-name-time">${message.username}<span class='message-time'>${message.time}</span></div>
       <div class="message-text">${message.text}</div>
     </div>
   </li>`
