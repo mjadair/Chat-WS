@@ -39,19 +39,24 @@ io.on('connection', (socket) => {
 namespaces.forEach((namespace) => {
   io.of(namespace.endpoint).on('connection', (nsSocket) => {
     console.log(`${nsSocket.id} has joined ${namespace.endpoint}`)
-    nsSocket.emit('nsRoomLoad', namespaces[0].rooms)
+    nsSocket.emit('nsRoomLoad', namespace.rooms)
 
     nsSocket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
       nsSocket.join(roomToJoin)
-      io.of('/thesimpsons').in(roomToJoin).clients((error, clients) => {
+      io.of(namespace.endpoint).in(roomToJoin).clients((error, clients) => {
         console.log('clients: ', clients)
         numberOfUsersCallback(clients.length)
-      }) 
-     
-      const nameSpaceRoom = namespaces[0].rooms.find((room) => {
+      })
+
+      const nameSpaceRoom = namespace.rooms.find((room) => {
         return room.roomTitle === roomToJoin
       })
       nsSocket.emit('historyCatchUp', nameSpaceRoom.history)
+
+      io.of(namespace.endpoint).in(roomToJoin).clients((error, clients) => {
+        // console.log(`There are ${clients.length} in this room`)
+        io.of(namespace.endpoint).in(roomToJoin).emit('updateMembers', clients.length)
+      })
     })
 
     nsSocket.on('newMessageToServer', (message) => {
@@ -66,14 +71,14 @@ namespaces.forEach((namespace) => {
 
       const roomTitle = Object.keys(nsSocket.rooms)[1]
 
-      const nameSpaceRoom = namespaces[0].rooms.find((room) => {
+      const nameSpaceRoom = namespace.rooms.find((room) => {
         return room.roomTitle === roomTitle
       })
 
       console.log('Room object that matches this namespace room:', nameSpaceRoom)
       nameSpaceRoom.addMessage(fullMessage)
 
-      io.of('/thesimpsons').to(roomTitle).emit('messageToClients', fullMessage)
+      io.of(namespace.endpoint).to(roomTitle).emit('messageToClients', fullMessage)
 
 
     })

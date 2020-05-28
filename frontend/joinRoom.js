@@ -18,7 +18,14 @@ function joinRoom(roomName) {
       const currentMessage = messages.innerHTML
       messages.innerHTML = currentMessage + newMessage
     })
+    //scrolls to the bottom of the div on page load.
+    messages.scrollTo(0, messages.scrollHeight)
+
+  })
 
 
+  nsSocket.on('updateMembers', (numOfMembers) => {
+    document.querySelector('.curr-room-num-users').innerHTML = `${numOfMembers} <span class='glyphicon glyphicon-user'></span>`
+    document.querySelector('.curr-room-text').innerText = `${roomName}`
   })
 }
