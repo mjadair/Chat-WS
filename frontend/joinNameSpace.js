@@ -47,9 +47,10 @@ function joinNameSpace(endpoint) {
     nsSocket.emit('newMessageToServer', { text: newMessage })
   })
 
+}
 
-  function buildHTML(message) {
-    const newHTML = ` 
+function buildHTML(message) {
+  const newHTML = ` 
     <li>
     <div class="user-image">
       <img src="${message.avatar}" />
@@ -60,10 +61,9 @@ function joinNameSpace(endpoint) {
     </div>
   </li>`
 
-    return newHTML
-  }
-
-
-
-
+  return newHTML
 }
+
+
+
+

@@ -48,6 +48,10 @@ namespaces.forEach((namespace) => {
         numberOfUsersCallback(clients.length)
       }) 
      
+      const nameSpaceRoom = namespaces[0].rooms.find((room) => {
+        return room.roomTitle === roomToJoin
+      })
+      nsSocket.emit('historyCatchUp', nameSpaceRoom.history)
     })
 
     nsSocket.on('newMessageToServer', (message) => {
@@ -67,7 +71,7 @@ namespaces.forEach((namespace) => {
       })
 
       console.log('Room object that matches this namespace room:', nameSpaceRoom)
-      nameSpaceRoom.addMessage(message)
+      nameSpaceRoom.addMessage(fullMessage)
 
       io.of('/thesimpsons').to(roomTitle).emit('messageToClients', fullMessage)
 
