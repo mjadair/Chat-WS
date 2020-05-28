@@ -1,7 +1,7 @@
 function joinNameSpace(endpoint) {
 
 
-  if(nsSocket) {
+  if (nsSocket) {
     nsSocket.close()
 
     //remove the event listener to stop it posting the same message multiple times when a user moves namespace
@@ -48,6 +48,7 @@ function joinNameSpace(endpoint) {
     console.log(msg)
     const newMessage = buildHTML(msg)
     document.querySelector('#messages').innerHTML += newMessage
+    document.querySelector('#user-message').value = ''
   })
 
 
@@ -60,8 +61,15 @@ function joinNameSpace(endpoint) {
 
 function formSubmission(event) {
   event.preventDefault()
-  const newMessage = document.querySelector('#user-message').value
+  console.log(event)
+  const newMessage = event.target[0].value
   nsSocket.emit('newMessageToServer', { text: newMessage })
+
+
+
+  
+
+
 }
 
 

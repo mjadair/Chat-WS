@@ -1,4 +1,13 @@
-const socket = io('http://localhost:9000')
+// const socket = io('http://localhost:9000')
+const username = prompt('What is your username?')
+const profilepic = prompt('Paste a link to your photo')
+
+const socket = io('http://localhost:9000', {
+  query: {
+    username: username,
+    profilepic: profilepic
+  }
+})
 let nsSocket = ''
 
 //run the scripts when the DOM has loaded

@@ -38,7 +38,12 @@ io.on('connection', (socket) => {
 // loop through each namespace and listen to each endpoint for a connection from the client
 namespaces.forEach((namespace) => {
   io.of(namespace.endpoint).on('connection', (nsSocket) => {
-    console.log(`${nsSocket.id} has joined ${namespace.endpoint}`)
+    // console.log(`${nsSocket.id} has joined ${namespace.endpoint}`)
+    
+    const username = nsSocket.handshake.query.username
+    const profilepic = nsSocket.handshake.query.profilepic
+    
+    
     nsSocket.emit('nsRoomLoad', namespace.rooms)
 
     nsSocket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
@@ -68,8 +73,8 @@ namespaces.forEach((namespace) => {
       const fullMessage = {
         text: message.text,
         time: (new Date).toLocaleString(),
-        username: 'Michael',
-        avatar: 'https://ca.slack-edge.com/T0351JZQ0-UM3K7D118-3fb86655d21a-512'
+        username: username,
+        avatar: profilepic ? profilepic :  'https://thumbs.dreamstime.com/b/default-placeholder-profile-icon-avatar-gray-woman-90197973.jpg'
       }
       console.log(message)
       console.log(nsSocket.rooms)
