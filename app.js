@@ -42,7 +42,15 @@ namespaces.forEach((namespace) => {
     nsSocket.emit('nsRoomLoad', namespace.rooms)
 
     nsSocket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
+      
+      const roomToLeave = Object.keys(nsSocket.rooms)[1]
+      nsSocket.leave(roomToLeave)
+      updateUsersInRoom(namespace, roomToLeave)
       nsSocket.join(roomToJoin)
+
+
+
+
       io.of(namespace.endpoint).in(roomToJoin).clients((error, clients) => {
         console.log('clients: ', clients)
         numberOfUsersCallback(clients.length)
@@ -52,11 +60,8 @@ namespaces.forEach((namespace) => {
         return room.roomTitle === roomToJoin
       })
       nsSocket.emit('historyCatchUp', nameSpaceRoom.history)
-
-      io.of(namespace.endpoint).in(roomToJoin).clients((error, clients) => {
-        // console.log(`There are ${clients.length} in this room`)
-        io.of(namespace.endpoint).in(roomToJoin).emit('updateMembers', clients.length)
-      })
+      updateUsersInRoom(namespace, roomToJoin)
+      
     })
 
     nsSocket.on('newMessageToServer', (message) => {
@@ -88,3 +93,11 @@ namespaces.forEach((namespace) => {
 
 
 })
+
+
+function updateUsersInRoom(namespace, roomToJoin){
+  io.of(namespace.endpoint).in(roomToJoin).clients((error, clients) => {
+    // console.log(`There are ${clients.length} in this room`)
+    io.of(namespace.endpoint).in(roomToJoin).emit('updateMembers', clients.length)
+  })
+}

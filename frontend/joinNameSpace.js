@@ -1,6 +1,15 @@
 function joinNameSpace(endpoint) {
 
 
+  if(nsSocket) {
+    nsSocket.close()
+
+    //remove the event listener to stop it posting the same message multiple times when a user moves namespace
+
+    document.querySelector('#user-input').removeEventListener('submit', formSubmission)
+  }
+
+
   nsSocket = io(`http://localhost:9000${endpoint}`)
 
   nsSocket.on('nsRoomLoad', (nsRooms) => {
@@ -17,6 +26,8 @@ function joinNameSpace(endpoint) {
     Array.from(roomNodes).forEach((element) => {
       element.addEventListener('click', (e) => {
         console.log(`Someone clicked on ${e.target.innerText}`)
+
+        joinRoom(e.target.innerText)
       })
     })
 
@@ -41,13 +52,20 @@ function joinNameSpace(endpoint) {
 
 
 
-  document.querySelector('.message-form').addEventListener('submit', (event) => {
-    event.preventDefault()
-    const newMessage = document.querySelector('#user-message').value
-    nsSocket.emit('newMessageToServer', { text: newMessage })
-  })
+  document.querySelector('.message-form').addEventListener('submit', formSubmission)
 
 }
+
+
+
+function formSubmission(event) {
+  event.preventDefault()
+  const newMessage = document.querySelector('#user-message').value
+  nsSocket.emit('newMessageToServer', { text: newMessage })
+}
+
+
+
 
 function buildHTML(message) {
   const newHTML = ` 

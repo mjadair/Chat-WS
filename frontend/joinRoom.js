@@ -28,4 +28,20 @@ function joinRoom(roomName) {
     document.querySelector('.curr-room-num-users').innerHTML = `${numOfMembers} <span class='glyphicon glyphicon-user'></span>`
     document.querySelector('.curr-room-text').innerText = `${roomName}`
   })
+
+
+  let searchBox = document.querySelector('#search-box')
+  searchBox.addEventListener('input', (e) => {
+    let messages = Array.from(document.getElementsByClassName('message-text'))
+    messages.forEach(message => {
+      if (message.innerText.indexOf(e.target.value) === -1) {
+        message.style.display = 'none'
+      } else {
+        message.style.display = 'block'
+      }
+    })
+  })
+
+
+
 }
