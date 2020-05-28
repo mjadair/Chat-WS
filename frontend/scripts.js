@@ -26,10 +26,11 @@ socket.on('nsList', (nsData) => {
     element.addEventListener('click', (e) => {
       const namespaceEndpoint = element.getAttribute('ns')
       console.log(namespaceEndpoint)
+      joinNameSpace(namespaceEndpoint)
     })
   })
 
-  joinNameSpace('thesimpsons')
+  joinNameSpace('/thesimpsons')
 
 })
 
