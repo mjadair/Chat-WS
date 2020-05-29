@@ -37,24 +37,24 @@ io.on('connection', (socket) => {
 
 // loop through each namespace and listen to each endpoint for a connection from the client
 namespaces.forEach((namespace) => {
+  //take the particular namespace and add a listener for connection
   io.of(namespace.endpoint).on('connection', (nsSocket) => {
     // console.log(`${nsSocket.id} has joined ${namespace.endpoint}`)
     
+    //here we take the username and picture passed from the handshake upon the front-end connection to the socket. (Line 7, scripts.js)
     const username = nsSocket.handshake.query.username
     const profilepic = nsSocket.handshake.query.profilepic
     
-    
+    //we emit the array of rooms associated with that namespace. This is picked up by line 23 in our joinNameSpace.js file
     nsSocket.emit('nsRoomLoad', namespace.rooms)
 
+    //we are still connected to the namespace - here we're listening for the user to join a room within that namespace
     nsSocket.on('joinRoom', (roomToJoin, numberOfUsersCallback) => {
       
       const roomToLeave = Object.keys(nsSocket.rooms)[1]
       nsSocket.leave(roomToLeave)
       updateUsersInRoom(namespace, roomToLeave)
       nsSocket.join(roomToJoin)
-
-
-
 
       io.of(namespace.endpoint).in(roomToJoin).clients((error, clients) => {
         console.log('clients: ', clients)
@@ -69,6 +69,9 @@ namespaces.forEach((namespace) => {
       
     })
 
+
+
+    //here we are listening for new messages to be posted within that namespace
     nsSocket.on('newMessageToServer', (message) => {
       const fullMessage = {
         text: message.text,

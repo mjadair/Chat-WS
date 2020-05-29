@@ -9,15 +9,21 @@ function joinNameSpace(endpoint) {
     nsSocket.close()
 
     //remove the event listener to stop it posting the same message multiple times when a user moves namespace
-
     document.querySelector('#user-input').removeEventListener('submit', formSubmission)
   }
 
 
+
+  //we join the namespace based on the endpoint the user selected on click (line 42 in scripts.js)
   nsSocket = io(`http://localhost:9000${endpoint}`)
 
+
+
+  //when our server hears us join a name space it emits nsRoomLoad, which passes the namespaces rooms array of objects to us
   nsSocket.on('nsRoomLoad', (nsRooms) => {
-    // console.log(nsRooms)
+
+
+    //selects the DOM and adds the room names
     let roomList = document.querySelector('.room-list')
     roomList.innerHTML = ''
     nsRooms.forEach((room) => {
@@ -25,12 +31,13 @@ function joinNameSpace(endpoint) {
     })
 
 
+    //selects our newly added rooms
     let roomNodes = document.getElementsByClassName('room')
 
+
+    //adds event listeners to each of our room titles and runs the joinRoom function (joinRoom.js) on click
     Array.from(roomNodes).forEach((element) => {
       element.addEventListener('click', (e) => {
-        console.log(`Someone clicked on ${e.target.innerText}`)
-
         joinRoom(e.target.innerText)
       })
     })
@@ -71,7 +78,7 @@ function formSubmission(event) {
 
 
 
-  
+
 
 
 }
