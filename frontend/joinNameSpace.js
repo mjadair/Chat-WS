@@ -42,11 +42,10 @@ function joinNameSpace(endpoint) {
       })
     })
 
+
+    //joins the first room in the rooms list upon the socket hearing 'nsRoomLoad'
     const topRoom = document.querySelector('.room')
     const topRoomName = topRoom.innerText
-
-    console.log(topRoomName)
-
     joinRoom(topRoomName)
 
 
