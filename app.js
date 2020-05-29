@@ -4,25 +4,25 @@ const express = require('express')
 //intialise up an app variable that uses the express server
 const app = express()
 
-//require socketio
+//require socketio - this is the node module for the server-side. We require a different version for client-side
 const socketio = require('socket.io')
 
 //take the namespaces from our data files
 let namespaces = require('./data/namespaces')
 
 
-//set up middleware with app.use and serve static html files from our front-end folder with .static()
+//set up middleware with app.use and serve static html files from our front-end folder with .static() - this makes the contents of our 'frontent' folder available publically.
 app.use(express.static(__dirname + '/frontend'))
 
 //tell our express server to listen on port 9000
 const expressServer = app.listen(9000, () => console.log('Express server is listening on Port 9000'))
 
 
-//initialise socketio with our server 
+//initialise socketio with our server. io becomes the server object.
 const io = socketio(expressServer)
 
 
-//When the websocket connects to the server, map over the namespace data and emit it. This makes it available for our front-end client. 
+//When the websocket connects to the server, map over the namespace data and emit it. This makes it available for our front-end client. 'Connection is a defined event by the socketio API'
 io.on('connection', (socket) => {
   let nsData = namespaces.map((namespace) => {
     return {

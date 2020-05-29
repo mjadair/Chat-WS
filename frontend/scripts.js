@@ -2,6 +2,8 @@
 const username = prompt('What is your username?')
 const profilepic = prompt('Paste a link to your photo')
 
+
+//We connect to the socket initialised as io in app.js line 22. The second object is a 'handshake' given to us by socketio, we can pass it a query object which can store data. 
 const socket = io('http://localhost:9000', {
   query: {
     username: username,
@@ -31,6 +33,8 @@ socket.on('nsList', (nsData) => {
   })
 
 
+
+  //add a click listener to all of our namespaces elements and call the joinNameSpace funtion that is in our joinNameSpace.js file. 
   Array.from(document.getElementsByClassName('namespace')).forEach((element) => {
     element.addEventListener('click', (e) => {
       const namespaceEndpoint = element.getAttribute('ns')
@@ -39,6 +43,8 @@ socket.on('nsList', (nsData) => {
     })
   })
 
+
+//hard-coded: immediately joins the first namespace. 
   joinNameSpace('/thesimpsons')
 
 })

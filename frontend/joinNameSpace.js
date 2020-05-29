@@ -1,6 +1,10 @@
+//the function called by clicking on a namespace from our front-end scrips.js file
+
+
 function joinNameSpace(endpoint) {
 
 
+  //if we are already connected to a namespace, close the connection
   if (nsSocket) {
     nsSocket.close()
 
